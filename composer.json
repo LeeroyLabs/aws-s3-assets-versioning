@@ -1,0 +1,56 @@
+{
+    "name": "leeroy/aws-s3-assets-versioning",
+    "description": "Plugin to add versioning to assets with S3",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "assets",
+        "assets-versioning"
+    ],
+    "support": {
+        "docs": "https://github.com/LeeroyLabs/aws-s3-assets-versioning/blob/main/README.md",
+        "issues": "https://github.com/LeeroyLabs/aws-s3-assets-versioning/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Leeroy agency",
+            "homepage": "https://github.com/LeeroyLabs/"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "craftcms/cms": "^^4.0"
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.0",
+        "vlucas/phpdotenv": "^3.0",
+        "craftcms/rector": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "leeroy\\awss3assetsversioning\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "AWS S3 Assets Versioning",
+        "handle": "aws-s3-assets-versioning",
+        "developer": "Leeroy agency",
+        "developerUrl": "https://github.com/LeeroyLabs/",
+        "documentationUrl": "https://github.com/LeeroyLabs/aws-s3-assets-versioning/blob/main/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/LeeroyLabs/aws-s3-assets-versioning/main/CHANGELOG.md",
+        "class": "leeroy\\awss3assetsversioning\\AwsS3AssetsVersioning"
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
