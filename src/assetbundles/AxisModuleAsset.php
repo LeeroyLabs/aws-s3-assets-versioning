@@ -21,7 +21,7 @@ class AxisModuleAsset extends AssetBundle
     public function init()
     {
         // define the path that your publishable resources live
-        $this->sourcePath = "@modules/assetbundles/axismodule/assets";
+        $this->sourcePath = "@assetbundles/assets";
 
         // define the dependencies
         $this->depends = [

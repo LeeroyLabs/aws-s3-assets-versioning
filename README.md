@@ -23,7 +23,7 @@ To install the plugin, follow these instructions.
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for AWS S3 Assets Versioning.
 
-## Draft sharer Overview
+## Assets Versioning Overview
 
 When you create a draft, a button to generate a share link will appear to the right below the changes note box.
 
