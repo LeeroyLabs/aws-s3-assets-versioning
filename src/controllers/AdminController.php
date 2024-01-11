@@ -1,5 +1,5 @@
 <?php
-namespace leeroy\awss3assetsversioning\src\controllers;
+namespace leeroy\awss3assetsversioning\controllers;
 
 use Craft;
 use craft\awss3\S3Client;
@@ -55,7 +55,7 @@ class AdminController extends Controller
             'Key' => $filename,
             'VersionId' => $versionId
         ]);
-        $filePath = __DIR__ . '/temp/' . $filename;
+        $filePath = Craft::$app->path->getTempAssetUploadsPath() . '/' . $filename;
 
         header("Content-Type: {$file['ContentType']}");
         file_put_contents($filePath, $file['Body']);

@@ -11,8 +11,7 @@ use craft\events\RegisterUrlRulesEvent;
 use craft\events\TemplateEvent;
 use craft\web\UrlManager;
 use craft\web\View;
-use src\assetbundles\axismodule\AxisModuleAsset;
-use src\twig\TwigCustomExtension;
+use leeroy\awss3assetsversioning\assetbundles\PluginAsset;
 use yii\base\Event;
 use yii\base\InvalidConfigException;
 use craft\base\Plugin;
@@ -49,10 +48,6 @@ class AwsS3AssetsVersioning extends Plugin
     {
         parent::init();
         self::$plugin = $this;
-        $this->controllerNamespace = 'leeroy\awss3assetsversioning\src\controllers';
-
-        $customExtension = new TwigCustomExtension();
-        Craft::$app->view->registerTwigExtension($customExtension);
 
         if (Craft::$app->getRequest()->getIsCpRequest()) {
             Event::on(
@@ -60,7 +55,7 @@ class AwsS3AssetsVersioning extends Plugin
                 View::EVENT_BEFORE_RENDER_TEMPLATE,
                 function (TemplateEvent $event) {
                     try {
-                        Craft::$app->getView()->registerAssetBundle(AxisModuleAsset::class);
+                        Craft::$app->getView()->registerAssetBundle(PluginAsset::class);
                     } catch (InvalidConfigException $e) {
                         Craft::error(
                             'Error registering AssetBundle - '.$e->getMessage(),
@@ -75,8 +70,8 @@ class AwsS3AssetsVersioning extends Plugin
         Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
-            static function (RegisterUrlRulesEvent $event) {
-                $event->rules['change-version'] = 'awss3assetsversioning/admin/change-version';
+            function (RegisterUrlRulesEvent $event) {
+                $event->rules['change-version'] = 'aws-s3-assets-versioning/admin/change-version';
             }
         );
 

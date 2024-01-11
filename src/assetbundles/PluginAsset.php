@@ -1,5 +1,5 @@
 <?php
-namespace leeroy\awss3assetsversioning\src\assetbundles;
+namespace leeroy\awss3assetsversioning\assetbundles;
 
 use Craft;
 use craft\web\AssetBundle;
@@ -10,7 +10,7 @@ use craft\web\assets\cp\CpAsset;
  * @package   Axis Module
  * @since     1.0.0
  */
-class AxisModuleAsset extends AssetBundle
+class PluginAsset extends AssetBundle
 {
     // Public Methods
     // =========================================================================
@@ -20,9 +20,6 @@ class AxisModuleAsset extends AssetBundle
      */
     public function init()
     {
-        // define the path that your publishable resources live
-        $this->sourcePath = "@assetbundles/assets";
-
         // define the dependencies
         $this->depends = [
             CpAsset::class,
