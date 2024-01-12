@@ -7,6 +7,7 @@ use Aws\S3\S3Client;
 use craft\base\Element;
 use craft\elements\Asset;
 use craft\events\DefineHtmlEvent;
+use craft\events\ModelEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\TemplateEvent;
 use craft\web\UrlManager;
@@ -74,6 +75,20 @@ class AwsS3AssetsVersioning extends Plugin
                 $event->rules['change-version'] = 'aws-s3-assets-versioning/admin/change-version';
             }
         );
+
+        Event::on(
+            Asset::class,
+            Element::EVENT_BEFORE_SAVE,
+            function (ModelEvent $e)
+            {
+                $newFileName = $e->sender->newLocation;
+                $newFileExt = pathinfo($newFileName, PATHINFO_EXTENSION);
+                $oldFileExt = pathinfo($e->sender->filename, PATHINFO_EXTENSION);
+
+                if ($newFileExt !== $oldFileExt) {
+                    exit();
+                }
+            });
 
         Event::on(Asset::class, Element::EVENT_DEFINE_SIDEBAR_HTML, function(DefineHtmlEvent $e) {
             $config = [
