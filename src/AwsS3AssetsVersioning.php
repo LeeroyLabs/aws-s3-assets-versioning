@@ -81,12 +81,23 @@ class AwsS3AssetsVersioning extends Plugin
             Element::EVENT_BEFORE_SAVE,
             function (ModelEvent $e)
             {
-                $newFileName = $e->sender->newLocation;
-                $newFileExt = pathinfo($newFileName, PATHINFO_EXTENSION);
-                $oldFileExt = pathinfo($e->sender->filename, PATHINFO_EXTENSION);
+                if ($e->sender->newLocation) {
+                    $newFileName = $e->sender->newLocation;
+                    $newFileExt = pathinfo($newFileName, PATHINFO_EXTENSION);
+                    $oldFileName = $e->sender->filename;
+                    $oldFileExt = pathinfo($e->sender->filename, PATHINFO_EXTENSION);
 
-                if ($newFileExt !== $oldFileExt) {
-                    exit();
+                    if ($newFileExt !== $oldFileExt) {
+                        exit();
+                    }
+
+                    if ($newFileName !== $oldFileName) {
+                        $newFileName = explode('}', pathinfo($newFileName, PATHINFO_FILENAME));
+                        $newNewFileName = str_replace($newFileName[1], pathinfo($oldFileName, PATHINFO_FILENAME), $e->sender->tempFilePath);
+                        $e->sender->newLocation = $newFileName[0] . '}' . $oldFileName;
+                        rename($e->sender->tempFilePath, $newNewFileName);
+                        $e->sender->tempFilePath = $newNewFileName;
+                    }
                 }
             });
 

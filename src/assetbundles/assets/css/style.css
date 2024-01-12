@@ -7,6 +7,10 @@
     z-index: 5555; transition: 0.3s ease all;
 }
 
+.versions .popup .content-container {
+    max-height: 400px; overflow: scroll;
+}
+
 .versions .container,
 .versions .background { position: absolute; top: 0; bottom: 0; left: 0; right: 0; }
 
