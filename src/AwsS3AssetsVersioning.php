@@ -132,10 +132,10 @@ class AwsS3AssetsVersioning extends Plugin
                     <div class="tableview tablepane">
                         <table class="data fullwidth">
                             <thead>
-                                <th scope="col" data-attribute="title" class="orderable" aria-sort="none">Asset</th>
-                                <th scope="col" data-attribute="size" class="orderable" aria-sort="none">File Size</th>
-                                <th scope="col" data-attribute="dateModified" class="orderable" aria-sort="none">File Modified Date</th>
-                                <th>Action</th>
+                                <th scope="col" data-attribute="title" class="orderable" aria-sort="none">'. Craft::t('aws-s3-assets-versioning', 'Admin:AssetColLabel') .'</th>
+                                <th scope="col" data-attribute="size" class="orderable" aria-sort="none">'. Craft::t('aws-s3-assets-versioning', 'Admin:FileSizeColLabel') .'</th>
+                                <th scope="col" data-attribute="dateModified" class="orderable" aria-sort="none">'. Craft::t('aws-s3-assets-versioning', 'Admin:FileModifiedDateLabel') .'</th>
+                                <th>'. Craft::t('aws-s3-assets-versioning', 'Admin:ActionLabel') .'</th>
                             </thead>
                             <tbody>
                                 '. $this->_listVersions($file_version->get('Versions'), $e->sender->folderId, $filename, $aws) .'
@@ -147,10 +147,10 @@ class AwsS3AssetsVersioning extends Plugin
 
             $e->html .= '
                 <div class="versions">
-                    <div class="btn submit" onclick="togglePopup()">Versions</div>
+                    <div class="btn submit" onclick="togglePopup()">'. Craft::t('aws-s3-assets-versioning', 'Admin:ManageVersionBtnLabel') .'</div>
                     <div id="popup--volume" class="popup popup--hidden">
                         <div class="container">
-                            <h2>'. $e->sender->filename .'\'s versions</h2>
+                            <h2>'. $e->sender->filename .'</h2>
                             <div class="content-container">
                                 <div class="content-pane">
                                     <div class="main element-index">
@@ -160,7 +160,7 @@ class AwsS3AssetsVersioning extends Plugin
                                     </div>
                                 </div>
                             </div>
-                            <div class="btn submit popup--close" onclick="togglePopup()">Close</div>
+                            <div class="btn submit popup--close" onclick="togglePopup()">'. Craft::t('aws-s3-assets-versioning', 'Admin:CloseBtnLabel') .'</div>
                         </div>
                         <span class="background" onclick="togglePopup()"></span>
                     </div>
@@ -168,8 +168,6 @@ class AwsS3AssetsVersioning extends Plugin
             ';
         });
     }
-
-    // TODO - Add translations
 
     /**
      *
@@ -220,7 +218,7 @@ class AwsS3AssetsVersioning extends Plugin
                                 <div id="popup-img--'. $key .'" class="popup popup--img popup--hidden">
                                     <div class="container">
                                         '. $asset .'
-                                        <div class="btn submit popup--close" onclick="toggleIMGPopup(\'popup-img--'. $key .'\')">Close preview</div>
+                                        <div class="btn submit popup--close" onclick="toggleIMGPopup(\'popup-img--'. $key .'\')">'. Craft::t('aws-s3-assets-versioning', 'Admin:ClosePreviewBtnLabel') .'</div>
                                     </div>
                                     <span class="background" onclick="toggleIMGPopup(\'popup-img--'. $key .'\')"></span>
                                 </div>

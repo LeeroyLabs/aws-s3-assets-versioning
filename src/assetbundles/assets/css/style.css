@@ -8,7 +8,7 @@
 }
 
 .versions .popup .content-container {
-    max-height: 400px; overflow: scroll;
+    max-height: 400px; overflow: auto;
 }
 
 .versions .container,
@@ -34,4 +34,5 @@ body.ltr  .versions .container table.data thead th.orderable:first-child { paddi
 .versions .popup.popup--img .container { display: flex; height: 75vh; width: 75vw; }
 .versions .popup.popup--img img,
 .versions .popup.popup--img embed { margin: auto; }
+.versions .popup.popup--img img { max-height: 350px; }
 .versions .popup.popup--img .background { opacity: 58%; }
