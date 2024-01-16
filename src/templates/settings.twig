@@ -1,0 +1,11 @@
+{% import "_includes/forms" as forms %}
+
+{% set label = 'Setting:KeepVersionLabel'|t('aws-s3-assets-versioning') %}
+{% set instructions = 'Setting:KeepVersionInstructions'|t('aws-s3-assets-versioning') %}
+{{ forms.lightswitchField({
+    label: label,
+    instructions: instructions,
+    id: 'keepVersion',
+    name: 'keepVersion',
+    on: settings.keepVersion
+}) }}

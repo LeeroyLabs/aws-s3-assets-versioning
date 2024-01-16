@@ -13,6 +13,7 @@ use craft\events\TemplateEvent;
 use craft\web\UrlManager;
 use craft\web\View;
 use leeroy\awss3assetsversioning\assetbundles\PluginAsset;
+use leeroy\awss3assetsversioning\models\Settings;
 use yii\base\Event;
 use yii\base\InvalidConfigException;
 use craft\base\Plugin;
@@ -41,6 +42,8 @@ class AwsS3AssetsVersioning extends Plugin
      * @var bool
      */
     public bool $hasCpSection = false;
+
+    // TODO - ADD MORE COMMENTS
 
     /**
      * Initializes the module.
@@ -88,6 +91,7 @@ class AwsS3AssetsVersioning extends Plugin
                     $oldFileExt = pathinfo($e->sender->filename, PATHINFO_EXTENSION);
 
                     if ($newFileExt !== $oldFileExt) {
+                        throw new \Exception("File extension must be the same as the original file");
                         exit();
                     }
 
@@ -120,6 +124,8 @@ class AwsS3AssetsVersioning extends Plugin
             ]);
 
             $content = "No other version available";
+
+            // TODO - Add html partials with vars
 
             if (in_array($filename, array_column($file_version->get('Versions'), 'Key'), true)) {
                 $content = '
@@ -162,6 +168,8 @@ class AwsS3AssetsVersioning extends Plugin
             ';
         });
     }
+
+    // TODO - Add translations
 
     /**
      *
@@ -227,5 +235,34 @@ class AwsS3AssetsVersioning extends Plugin
         }
 
         return $versionsList;
+    }
+
+    // Protected Methods
+    // =========================================================================
+
+    /**
+     * Creates and returns the model used to store the plugin’s settings.
+     *
+     * @return Settings
+     */
+    protected function createSettingsModel(): Settings
+    {
+        return new Settings();
+    }
+
+    /**
+     * Returns the rendered settings HTML, which will be inserted into the content
+     * block on the settings page.
+     *
+     * @return string The rendered settings HTML
+     */
+    protected function settingsHtml(): ?string
+    {
+        return Craft::$app->view->renderTemplate(
+            'aws-s3-assets-versioning/settings',
+            [
+                'settings' => $this->getSettings()
+            ]
+        );
     }
 }

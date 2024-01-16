@@ -10,6 +10,8 @@ use craft\errors\ElementNotFoundException;
 use craft\helpers\StringHelper;
 use craft\web\Controller;
 use JetBrains\PhpStorm\NoReturn;
+use leeroy\awss3assetsversioning\AwsS3AssetsVersioning;
+use leeroy\awss3assetsversioning\models\Settings;
 use Throwable;
 use yii\base\Exception;
 
@@ -33,7 +35,7 @@ class AdminController extends Controller
      * @return void
      * @throws Throwable
      */
-    #[NoReturn] public function actionChangeVersion():void
+    public function actionChangeVersion():void
     {
         $filename = $_GET['filename'];
         $versionId = $_GET['VersionId'];
@@ -75,11 +77,13 @@ class AdminController extends Controller
 
         Craft::$app->elements->saveElement($asset);
 
-        $aws->deleteObject([
-            'Bucket' => getenv('S3_BUCKET'),
-            'Key' => $filename,
-            'VersionId' => $versionId
-        ]);
+        if (AwsS3AssetsVersioning::$plugin->settings->keepVersion) {
+            $aws->deleteObject([
+                'Bucket' => getenv('S3_BUCKET'),
+                'Key' => $filename,
+                'VersionId' => $versionId
+            ]);
+        }
 
         header("Location: " . $asset->cpEditUrl);
         exit();
