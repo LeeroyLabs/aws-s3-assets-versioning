@@ -10,4 +10,5 @@ return [
     'Admin:FileModifiedDateLabel' => 'Date de modification du fichier',
     'Admin:ActionLabel' => 'Actions',
     'Admin:ClosePreviewBtnLabel' => 'Fermer la prévisualisation',
+    'Admin:RecentRevisions' => 'Revisions récentes',
 ];

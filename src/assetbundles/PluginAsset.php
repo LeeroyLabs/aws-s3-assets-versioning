@@ -20,6 +20,8 @@ class PluginAsset extends AssetBundle
      */
     public function init()
     {
+        $this->sourcePath = "@leeroy/awss3assetsversioning/assetbundles/assets";
+
         // define the dependencies
         $this->depends = [
             CpAsset::class,

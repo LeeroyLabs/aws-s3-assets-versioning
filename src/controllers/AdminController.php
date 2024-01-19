@@ -85,7 +85,7 @@ class AdminController extends Controller
             ]);
         }
 
-        header("Location: " . $asset->cpEditUrl);
+        header("Location: " . $asset->cpEditUrl . '&revert=success');
         exit();
     }
 }
