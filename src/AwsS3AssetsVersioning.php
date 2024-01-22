@@ -107,18 +107,7 @@ class AwsS3AssetsVersioning extends Plugin
         );
 
         Event::on(Asset::class, Element::EVENT_DEFINE_META_FIELDS_HTML, function(DefineHtmlEvent $e) {
-            $e->html = '
-                <div class="notifications--meta-fields">
-                    <div class="notification" data-type="error" style="opacity: 1; margin-bottom: 0px;">
-                        <div class="notification-body">
-                            <span class="notification-icon" data-icon="alert" aria-label="Error" role="img"></span>
-                            <div class="notification-main">
-                                <div class="notification-message">Filename and extension must be the same as the original file</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ';
+            $e->html = include('templates/_partials/warning.php');
         });
 
         Event::on(Asset::class, Element::EVENT_DEFINE_SIDEBAR_HTML, function(DefineHtmlEvent $e) {
@@ -137,28 +126,26 @@ class AwsS3AssetsVersioning extends Plugin
 
             $aws = new S3Client($config);
             $filename = $e->sender->filename;
+            $filepath = $e->sender->path;
 
             $file_version = $aws->listObjectVersions([
                 'Bucket' => getenv('S3_BUCKET'),
-                'Key' => $filename,
+                'Key' => $filepath,
             ]);
 
             $content = "";
 
-            if (in_array($filename, array_column($file_version->get('Versions'), 'Key'), true)) {
-                $content = $this->_listVersions($file_version->get('Versions'), $e->sender->folderId, $filename, $aws);
+//            print_r('<pre>');
+//            print_r($file_version);
+//            print_r('</pre>');
+//            die();
+
+            if (in_array($filepath, array_column($file_version->get('Versions'), 'Key'), true)) {
+                $content = $this->_listVersions($file_version->get('Versions'), $e->sender->folderId, $filepath, $filename, $aws);
             }
 
             if ($content) {
-                $e->html .= '
-                    <div id="asset__revisions">
-                        <hr class="revision-hr">
-                        <h6 class="padded">'. Craft::t('aws-s3-assets-versioning', 'Admin:RecentRevisions') .'</h6>
-                        <ul class="padded revision-group-current" role="group">
-                            '. $content .'
-                        </ul>
-                    </div>
-                ';
+                $e->html .= include('templates/_partials/revision-group.php');
             }
         });
     }
@@ -173,15 +160,15 @@ class AwsS3AssetsVersioning extends Plugin
      * @param S3Client $aws
      * @return string
      */
-    private function _listVersions(array $versions, int|string $folderId, string $filename, S3Client $aws): string
+    private function _listVersions(array $versions, int|string $folderId, string $filepath, string $filename, S3Client $aws): string
     {
         $versionsList = '';
 
         foreach ($versions as $key => $version) {
-            if ($version['Key'] === $filename && !$version['IsLatest']) {
+            if ($version['Key'] === $filepath && !$version['IsLatest']) {
                 $file = $aws->getObject([
                     'Bucket' => getenv('S3_BUCKET'),
-                    'Key' => $filename,
+                    'Key' => $filepath,
                     'VersionId' => $version['VersionId']
                 ]);
 

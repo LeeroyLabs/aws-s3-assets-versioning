@@ -1,4 +1,4 @@
-#asset__revisions img { max-height: 75px; }
+#asset__revisions img, #asset__revisions svg { max-height: 75px; }
 
 .notifications--meta-fields {
     background: #fff; border-radius: var(--large-border-radius);
