@@ -43,8 +43,6 @@ class AwsS3AssetsVersioning extends Plugin
      */
     public bool $hasCpSection = false;
 
-    // TODO - ADD MORE COMMENTS
-
     /**
      * Initializes the module.
      */
@@ -135,11 +133,6 @@ class AwsS3AssetsVersioning extends Plugin
 
             $content = "";
 
-//            print_r('<pre>');
-//            print_r($file_version);
-//            print_r('</pre>');
-//            die();
-
             if (in_array($filepath, array_column($file_version->get('Versions'), 'Key'), true)) {
                 $content = $this->_listVersions($file_version->get('Versions'), $e->sender->folderId, $filepath, $filename, $aws);
             }
@@ -156,6 +149,7 @@ class AwsS3AssetsVersioning extends Plugin
      *
      * @param array $versions
      * @param int|string $folderId
+     * @param string $filepath
      * @param string $filename
      * @param S3Client $aws
      * @return string
