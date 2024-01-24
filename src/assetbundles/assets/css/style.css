@@ -1,5 +1,11 @@
 #asset__revisions img, #asset__revisions svg { max-height: 75px; }
 
+#asset__revisions p { margin: 0; }
+
+.asset__container { padding: 30px 0; }
+.asset__container img { max-height: 400px; }
+.asset__container img, .asset__container embed { margin: 0 auto; }
+
 .notifications--meta-fields {
     background: #fff; border-radius: var(--large-border-radius);
     box-shadow: 0 0 0 1px rgba(19,26,32,.15), 0 2px 12px rgba(19,26,32,.15);

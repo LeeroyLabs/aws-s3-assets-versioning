@@ -1,0 +1,40 @@
+{% extends "_layouts/cp" %}
+{% set elementType = 'craft\\elements\\Asset' %}
+
+{% set title = filename %}
+
+{% block contextMenu %}
+    {% if craft.app.getIsMultiSite() %}
+        {% include "_elements/sitemenu" %}
+    {% endif %}
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+
+    <div id="action-buttons" class="flex">
+        <div class="secondary-buttons">
+            <a href="/admin/change-version?filename={{ filename }}&VersionId={{ VersionId }}&folderId={{ folderId }}" class="btn secondary formsubmit">Revert content from this revision</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <header id="content-header" class="pane-header">
+        <div id="content-notice" role="status">
+            <div class="revision-notice">
+                <div class="revision-icon" aria-hidden="true" data-icon="lightbulb"></div>
+                <p>You’re viewing a revision.</p>
+            </div>
+        </div>
+        <div class="main">
+            <div class="asset__container">
+                {% if '.pdf' in file['@metadata']['effectiveUri'] %}
+                    <embed src="{{ file['@metadata']['effectiveUri'] }}" width="1000" height="1000" type="application/pdf">
+                {% else %}
+                    <img src="{{ file['@metadata']['effectiveUri'] }}" alt="">
+                {% endif %}
+            </div>
+        </div>
+    </header>
+{% endblock %}

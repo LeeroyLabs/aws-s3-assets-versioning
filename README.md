@@ -1,8 +1,6 @@
 # AWS S3 Assets Versioning for Craft CMS 4.x
 
-Plugin to add versioning to assets with S3
-
-![Screenshot](resources/img/plugin-logo.png)
+Plugin to add versioning to assets with S3 in Craft CMS
 
 ## Requirements
 

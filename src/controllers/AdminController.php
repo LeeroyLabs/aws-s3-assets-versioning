@@ -14,6 +14,7 @@ use leeroy\awss3assetsversioning\AwsS3AssetsVersioning;
 use leeroy\awss3assetsversioning\models\Settings;
 use Throwable;
 use yii\base\Exception;
+use yii\web\Response;
 
 /**
  * @author    Antoine Chouinard
@@ -29,6 +30,39 @@ class AdminController extends Controller
      */
     protected array|bool|int $allowAnonymous = [];
 
+    public function actionVersion():Response
+    {
+        $filename = $_GET['filename'];
+        $versionId = $_GET['VersionId'];
+        $folderId = $_GET['folderId'];
+        $filepath = $_GET['filepath'];
+
+        $config = [
+            'version' => 'latest',
+            'credentials' => [
+                'key' => getenv('S3_KEY_ID'),
+                'secret' => getenv('S3_SECRET')
+            ],
+            'region' => getenv('S3_REGION')
+        ];
+
+        $aws = new S3Client($config);
+
+        $file = $aws->getObject([
+            'Bucket' => getenv('S3_BUCKET'),
+            'Key' => $filepath,
+            'VersionId' => $versionId
+        ]);
+
+        return $this->renderTemplate('aws-s3-assets-versioning/version', [
+            'filename' => $filename,
+            'filepath' => $filepath,
+            'VersionId' => $versionId,
+            'folderId' => $folderId,
+            'file' => $file
+        ]);
+    }
+
     /**
      *
      *
@@ -38,6 +72,7 @@ class AdminController extends Controller
     public function actionChangeVersion():void
     {
         $filename = $_GET['filename'];
+        $filepath = $_GET['filepath'];
         $versionId = $_GET['VersionId'];
         $folderId = $_GET['folderId'];
 
@@ -54,7 +89,7 @@ class AdminController extends Controller
 
         $file = $aws->getObject([
             'Bucket' => getenv('S3_BUCKET'),
-            'Key' => $filename,
+            'Key' => $filepath,
             'VersionId' => $versionId
         ]);
         $filePath = Craft::$app->path->getTempAssetUploadsPath() . '/' . $filename;

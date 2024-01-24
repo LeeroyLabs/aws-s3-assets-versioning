@@ -12,4 +12,6 @@ return [
     'Admin:ClosePreviewBtnLabel' => 'Fermer la prévisualisation',
     'Admin:RecentRevisions' => 'Revisions récentes',
     'Admin:Warning' => 'Le nom du fichier et son extension doivent être le même que celui du fichier actuel',
+    'Admin:Revision' => 'Revision',
+    'Admin:Saved' => 'Sauvegarder le',
 ];

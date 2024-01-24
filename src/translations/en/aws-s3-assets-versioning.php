@@ -12,4 +12,6 @@ return [
     'Admin:ClosePreviewBtnLabel' => 'Close Preview',
     'Admin:RecentRevisions' => 'Recent Revisions',
     'Admin:Warning' => 'Filename and extension must be the same as the original file',
+    'Admin:Revision' => 'Revision',
+    'Admin:Saved' => 'Saved on',
 ];
