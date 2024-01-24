@@ -6,7 +6,7 @@ Plugin to add versioning to assets with S3
 
 ## Requirements
 
-This plugin requires Craft CMS 4.0.0 or later and an AWS S3 bucket.
+This plugin requires Craft CMS 4.0.0 or later and an AWS S3 bucket with versioning enabled.
 
 ## Installation
 

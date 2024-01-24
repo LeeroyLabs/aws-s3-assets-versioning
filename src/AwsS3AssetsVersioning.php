@@ -93,8 +93,9 @@ class AwsS3AssetsVersioning extends Plugin
                         exit();
                     }
 
-                    if ($newFileName !== $oldFileName) {
-                        $newFileName = explode('}', pathinfo($newFileName, PATHINFO_FILENAME));
+                    $newFileName = explode('}', $newFileName);
+
+                    if ($newFileName[1] !== $oldFileName) {
                         $newNewFileName = str_replace($newFileName[1], pathinfo($oldFileName, PATHINFO_FILENAME), $e->sender->tempFilePath);
                         $e->sender->newLocation = $newFileName[0] . '}' . $oldFileName;
                         rename($e->sender->tempFilePath, $newNewFileName);
