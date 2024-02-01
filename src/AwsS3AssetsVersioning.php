@@ -137,7 +137,7 @@ class AwsS3AssetsVersioning extends Plugin
             $content = "";
 
             if (in_array($filepath, array_column($file_version->get('Versions'), 'Key'), true)) {
-                $content = $this->_listVersions($file_version->get('Versions'), $e->sender->folderId, $filepath, $filename, $aws);
+                $content = $this->listVersions($file_version->get('Versions'), $e->sender->folderId, $filepath, $filename, $aws);
             }
 
             if ($content) {
@@ -157,7 +157,7 @@ class AwsS3AssetsVersioning extends Plugin
      * @param S3Client $aws
      * @return string
      */
-    private function _listVersions(array $versions, int|string $folderId, string $filepath, string $filename, S3Client $aws): string
+    public static function listVersions(array $versions, int|string $folderId, string $filepath, string $filename, S3Client $aws, string $versionId = ""): string
     {
         $versionsList = '';
 
@@ -186,10 +186,14 @@ class AwsS3AssetsVersioning extends Plugin
                 $filesize = round($file['ContentLength'] / $filesizeLimit);
 
                 $date = strtotime($file['LastModified']->__toString());
+                $class = "";
+                if ($versionId === $version['VersionId']){
+                    $class = "sel";
+                }
 
                 $versionsList .= '
-                    <li role="option">
-                        <a href="/admin/version?filename='. $filename .'&filepath='. $filepath .'&VersionId='. $version['VersionId'] .'&folderId='. $folderId . '">
+                    <li class="'.$class.'" role="option">
+                        <a class="'.$class.'" href="/admin/version?filename='. $filename .'&filepath='. $filepath .'&VersionId='. $version['VersionId'] .'&folderId='. $folderId . '">
                             <p>'. Craft::t('aws-s3-assets-versioning', 'Admin:Revision') . ' ' . $count .' - '. $filesize . $filesizeFormat .'</p>
                             <span class="smalltext">
                                 '. Craft::t('aws-s3-assets-versioning', 'Admin:Saved') . ' ' . date('Y-m-d H:i:s', $date) .'

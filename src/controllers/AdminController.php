@@ -54,10 +54,24 @@ class AdminController extends Controller
             'VersionId' => $versionId
         ]);
 
+        $file_version = $aws->listObjectVersions([
+            'Bucket' => getenv('S3_BUCKET'),
+            'MaxKeys' => 500,
+            'KeyMarker' => preg_replace('/\.\w+$/', '', $filepath),
+        ]);
+
+        $asset = Asset::find()
+            ->filename($filename)
+            ->one();
+
+        $versions = AwsS3AssetsVersioning::listVersions($file_version->get('Versions'), $folderId, $filepath, $filename, $aws, $versionId);
+
         return $this->renderTemplate('aws-s3-assets-versioning/version', [
             'filename' => $filename,
             'filepath' => $filepath,
             'VersionId' => $versionId,
+            'versions' => $versions,
+            'asset' => $asset,
             'folderId' => $folderId,
             'file' => $file
         ]);
