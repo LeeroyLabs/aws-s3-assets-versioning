@@ -108,9 +108,7 @@ class AwsS3AssetsVersioning extends Plugin
 
         Event::on(Asset::class, Element::EVENT_DEFINE_META_FIELDS_HTML, function(DefineHtmlEvent $e) {
             $e->html = include('templates/_partials/warning.php');
-        });
 
-        Event::on(Asset::class, Element::EVENT_DEFINE_SIDEBAR_HTML, function(DefineHtmlEvent $e) {
             if (isset($_GET['revert']) && $_GET['revert'] === "success") {
                 Craft::$app->getSession()->setNotice('Success');
             }
@@ -139,6 +137,7 @@ class AwsS3AssetsVersioning extends Plugin
             if (in_array($filepath, array_column($file_version->get('Versions'), 'Key'), true)) {
                 $content = $this->listVersions($file_version->get('Versions'), $e->sender->folderId, $filepath, $filename, $aws);
             }
+
 
             if ($content) {
                 $e->html .= include('templates/_partials/revision-group.php');
